@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CFHerrera.CanchaItemPAge"
+             xmlns:models="CFHerrera.Models"
+             Title="Canchas Disponibles">
+
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10" VerticalOptions="StartAndExpand">
+            <Button Text="◀ Cancelar" 
+                    TextColor="#512bd4"
+                    WidthRequest="80"
+                    HeightRequest="30"
+                    FontAttributes="Bold"
+                    BackgroundColor="White"
+                    BorderWidth="0"
+                    Clicked="OnCancelClicked"
+                    HorizontalOptions="Start"
+                    Padding="0"/>
+            <Label Text="Nombre de la cancha: " />
+            <Entry x:Name="nombrecancha" 
+                   Text="{Binding Name}" 
+                   Placeholder="El ultimo 10"/>
+            <Label Text="Deporte: " />
+            <Entry x:Name="deportecancha" 
+                   Text="{Binding Deporte}" 
+                   Placeholder="Ej. Futbol"/>
+            <Label Text="Ciudad: " />
+            <Entry x:Name="ciudadcancha" 
+                   Text="{Binding Ciudad}" 
+                   Placeholder="Ej. Quito"/>
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Button Text="Eliminar" 
+                    FontAttributes="Bold"
+                    WidthRequest="120"
+                    BackgroundColor="#D52941"
+                    Clicked="eliminarCancha"
+                    CornerRadius="20"
+                    />
+                <Button Text="Guardar"
+                        FontAttributes="Bold"
+                        WidthRequest="120"
+                        Clicked="OnSaveClicked" 
+                        CornerRadius="20"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
