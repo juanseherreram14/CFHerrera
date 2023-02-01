@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CFHerrera.Views.ReservaListPage"
+             xmlns:models="clr-namespace:CFHerrera.Models"
+             Title="Lista de reservas">
+
+    <Grid RowDefinitions="80,*,100">
+        <Grid Grid.Row="0" ColumnDefinitions="3*,*" Margin="10">
+            <Grid Grid.Column="0" Grid.Row="0" ColumnDefinitions="*,30,10">
+                <Entry Grid.Column="0"
+                        Grid.Row="0"
+                        x:Name="reservabuscada" 
+                        Placeholder="Buscar reserva por nombre"
+                        HeightRequest="40"
+                        TextChanged="cambioTexto"
+                        Grid.ColumnSpan="3"
+                       />
+                <ImageButton Grid.Column="1"
+                        Grid.Row="0"
+                        x:Name="borrarBtn"
+                        HeightRequest="30"
+                        Padding="0"
+                        IsEnabled="False"
+                        IsVisible="False"
+                        Clicked="borrarBuscar"
+                        Source="borrar.png"/>
+            </Grid>
+            <Button Grid.Column="1"
+                Grid.Row="0"
+                Text="Buscar" 
+                FontAttributes="Bold"
+                Margin="20"
+                CornerRadius="20"
+                HeightRequest="40"
+                Clicked="buscarReserva"
+                Padding="0"/>
+        </Grid>
+        <Label HorizontalOptions="Center" Grid.Row="1" x:Name="mensajeVacio" Text="No existen elementos" IsVisible="false"/>
+        <CollectionView  Grid.Row="1" x:Name="listareservas" Margin="10" SelectionMode="Single" SelectionChanged="cambioSeleccion">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Reserva">
+                    <VerticalStackLayout>
+                        <BoxView Color="White" HeightRequest="20"/>
+                        <Grid ColumnDefinitions="*,*">
+                            <VerticalStackLayout Spacing="0" Grid.Column="0" HorizontalOptions="Center">
+                                <Label Text="{Binding Id}" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#bbbbbb"/>
+                                <Label FontFamily="Roboto-Bold"
+                                       TextColor="#2a166a"
+                                       FontSize="30" 
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding Name}" />
+                            </VerticalStackLayout>
+                            <Grid Grid.Column="1" ColumnDefinitions="150,*" RowDefinitions="*,*">
+                                <Label Grid.Column="0" Grid.Row="0" FontAttributes="Bold" Text="Deporte:"/>
+                                <Label Grid.Column="1" Grid.Row="0" HorizontalOptions="Start" Text="{Binding Fecha}" />
+                                <Label Grid.Column="0" Grid.Row="1" FontAttributes="Bold" Text="Num jugadores"/>
+                                <Label Grid.Column="1" Grid.Row="1" HorizontalOptions="Start" Text="{Binding Jugadores}" />
+                                <Label Grid.Column="0" Grid.Row="1" FontAttributes="Bold" Text="Cancha"/>
+                                <Label Grid.Column="1" Grid.Row="1" HorizontalOptions="Start" Text="{Binding Cancha}" />
+                            </Grid>
+                        </Grid>
+                        <BoxView Color="White" HeightRequest="20"/>
+                        <BoxView Color="Purple" HeightRequest="1"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Grid Grid.Row="2" ColumnDefinitions="*" BackgroundColor="#e6e6e6">
+            <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="5" Margin="20">
+                <Button Pressed="onPressed"
+                        Released="onReleased"
+                        BackgroundColor="#512bd4"
+                        x:Name="botonAgregar"
+                        Text="Agregar nuevo registro"
+                        HorizontalOptions="Center"
+                        WidthRequest="200"
+                        Clicked="OnItemAdded" 
+                        FontAttributes="Bold"
+                        Margin="0"
+                        CornerRadius="20"/>
+                <Button 
+                        x:Name="botonBorrarTodo"
+                        BackgroundColor="#e6e6e6"
+                        Text="Eliminar todos los registros"
+                        TextColor="Purple"
+                        WidthRequest="180"
+                        Padding="0"
+                        BorderWidth="0"
+                        FontSize="12"
+                        Clicked="borrarLista"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+
+</ContentPage>

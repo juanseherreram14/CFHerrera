@@ -1,6 +1,6 @@
 using CFHerrera.Models;
 using CFHerrera.Views;
-using static Android.Content.ClipData;
+
 namespace CFHerrera.Views;
 using SQLite;
 
@@ -9,7 +9,7 @@ public partial class CanchaItemPAge : ContentPage
 {
     Cancha cancha = new Cancha();
     Cancha aux = new Cancha();
-    bool _flag;
+    
 
     public int canchaID
     {

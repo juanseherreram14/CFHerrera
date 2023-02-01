@@ -15,10 +15,15 @@ namespace CFHerrera.Models
         [MaxLength(250), Unique]
         public string Name { get; set; }
        
-        public DateOnly Fecha { get; set; }
-        public TimeOnly hora { get; set; }
-        public int jugadores { get; set; }
-        public Cancha cancha { get; set; }
+        public DateTime Fecha { get; set; }
+        public int Jugadores { get; set; }
+      
+
+
+        public Cancha Cancha { get; set; }
+        
+        
+
 
     }
 }

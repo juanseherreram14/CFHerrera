@@ -12,7 +12,7 @@ namespace CFHerrera.Data
     {
         string _dbPath;                                  //String que tendrá la conexión a la base de datos
         private SQLiteConnection conn;                   //Variable que tendrá la conexión
-
+        private SQLiteConnection connR;
         public CanchaFacilDB(string DatabasePath)     //Constructor de la clase
         {
             _dbPath = DatabasePath;
@@ -24,10 +24,18 @@ namespace CFHerrera.Data
                 return;
             conn = new SQLiteConnection(_dbPath);        
             conn.CreateTable<Cancha>();
-            conn.CreateTable<Reserva>();
+            
                                                             
         }
 
+        private void InitReserva()
+        {
+            if (connR != null)
+                return;
+            connR = new SQLiteConnection(_dbPath);
+            connR.CreateTable<Reserva>();
+
+        }
         public int AddNewCancha(Cancha cancha)         
         {
             Init();
@@ -45,10 +53,10 @@ namespace CFHerrera.Data
 
         public int AddNewReserva(Reserva reserva)
         {
-            Init();
+            InitReserva();
             try
             {
-                int result = conn.Insert(reserva);
+                int result = connR.Insert(reserva);
                 return result;
             }
             catch (Exception e)
@@ -65,6 +73,13 @@ namespace CFHerrera.Data
             return canchas;
         }
 
+        public List<Reserva> GetAllReservas()            //Crea la conexión, recupera una lista de todas las filas, regresa la lista
+        {
+            InitReserva();
+            List<Reserva> reservas = connR.Table<Reserva>().ToList();
+            return reservas;
+        }
+
         public List<Cancha> GetCanchasByName(string contiene)
         {
             Init();
@@ -75,6 +90,16 @@ namespace CFHerrera.Data
             return cancha.ToList();
         }
 
+        public List<Reserva> GetReservasByName(string contiene)
+        {
+            InitReserva();
+            var reserva = from b in connR.Table<Reserva>()
+                         where b.Name.Contains(contiene)
+                         select b;
+
+            return reserva.ToList();
+        }
+
         public Cancha GetById(int id)
         {
             Init();
@@ -83,6 +108,16 @@ namespace CFHerrera.Data
                          select b;
 
             return cancha.FirstOrDefault();
+        }
+
+        public Reserva GetReservaById(int id)
+        {
+            InitReserva();
+            var reserva = from b in connR.Table<Reserva>()
+                         where b.Id == id
+                         select b;
+
+            return reserva.FirstOrDefault();
         }
 
         public void actualizarCancha(int id, string nom, string dep, string ciu)
@@ -101,6 +136,25 @@ namespace CFHerrera.Data
             }
         }
 
+        public void actualizarReserva(int id, string nom, DateTime fec, int jug, Cancha can )
+        {
+            InitReserva();
+            var reservanueva = connR.Table<Reserva>().Where(r => r.Id == id).FirstOrDefault();
+            if (reservanueva != null)
+            {
+                // Update the values
+                reservanueva.Name = nom;
+                reservanueva.Fecha = fec;
+
+                reservanueva.Jugadores= jug;
+                reservanueva.Cancha= can;
+
+
+                // Submit the changes to the database
+                conn.Update(reservanueva);
+            }
+        }
+
         public void eliminarCancha(int id)
         {
             var canchaeliminada = conn.Table<Cancha>().Where(r => r.Id == id).FirstOrDefault();
@@ -110,10 +164,25 @@ namespace CFHerrera.Data
             }
         }
 
+        public void eliminarReserva(int id)
+        {
+            var reservaeliminada = connR.Table<Reserva>().Where(r => r.Id == id).FirstOrDefault();
+            if (reservaeliminada != null)
+            {
+                conn.Delete(reservaeliminada);
+            }
+        }
+
         public void eliminarTodasCanchas()
         {
             conn.DeleteAll<Cancha>();
             conn.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'cancha'");
+        }
+
+        public void eliminarTodasReservas()
+        {
+            connR.DeleteAll<Reserva>();
+            connR.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'cancha'");
         }
     }
 }

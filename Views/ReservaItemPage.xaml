@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CFHerrera.Views.ReservaItemPage"
+             xmlns:models="clr-namespace:CFHerrera.Models"
+             Title="Reserva ahora">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10" VerticalOptions="StartAndExpand">
+            <Button Text="◀ Cancelar" 
+                    TextColor="#512bd4"
+                    WidthRequest="80"
+                    HeightRequest="30"
+                    FontAttributes="Bold"
+                    BackgroundColor="White"
+                    BorderWidth="0"
+                    Clicked="OnCancelClicked"
+                    HorizontalOptions="Start"
+                    Padding="0"/>
+            <Label Text="Nombre de quien hace la reserva: " />
+            <Entry x:Name="nombre" 
+                   Text="{Binding Name}" 
+                   Placeholder="Nicolas Molano"/>
+            <Label Text="Escoja la fecha: " />
+            <DatePicker x:Name="fecha"
+            Date="{Binding Fecha}" />
+
+            
+            <Label Text="Numero de jugadores: "/>
+            <Picker x:Name="num"
+            Title="Selecione">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>1</x:String>
+                        <x:String>2</x:String>
+                        <x:String>3</x:String>
+                        <x:String>4</x:String>
+                        <x:String>5</x:String>
+                        <x:String>6</x:String>
+                        <x:String>7</x:String>
+                        <x:String>8</x:String>
+                        <x:String>9</x:String>
+                        <x:String>10</x:String>
+                        <x:String>11</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+
+            <Label Text="Seleccione la cancha a reservar: "/>
+            <Picker x:Name="pickerCancha" x:DataType="models:Cancha"
+            Title="Selecione"
+            ItemDisplayBinding="{Binding Name}"/>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Button Text="Eliminar" 
+                    FontAttributes="Bold"
+                    WidthRequest="120"
+                    BackgroundColor="#D52941"
+                    Clicked="eliminarReserva"
+                    CornerRadius="20"
+                    />
+                <Button Text="Guardar"
+                        FontAttributes="Bold"
+                        WidthRequest="120"
+                        Clicked="OnSaveClicked" 
+                        CornerRadius="20"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
